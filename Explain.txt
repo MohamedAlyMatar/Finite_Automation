@@ -1,0 +1,19 @@
+The code defines a class NFA that represents a non-deterministic finite automaton, and a class DFA that represents a deterministic finite automaton. 
+The NFA class has attributes states, alphabet, transitions, start_state, and accept_states, while the DFA class has the same attributes.
+
+The function epsilon_closure takes an NFA and a set of states as input and computes the epsilon-closure of the given states. 
+The epsilon-closure of a state is the set of states that can be reached from it by following epsilon transitions. 
+Epsilon transitions are transitions that are not triggered by a symbol in the input alphabet, but rather occur spontaneously.
+
+The function move takes an NFA, a set of states, and a symbol as input and computes the set of states that can be reached 
+from the given states by following transitions triggered by the given symbol.
+
+The function nfa_to_dfa takes an NFA as input and computes a DFA that is equivalent to the NFA. 
+The conversion from an NFA to a DFA involves constructing the state-transition table for the DFA. 
+The start_state of the DFA is the epsilon-closure of the NFA's start_state. 
+The DFA's states are sets of states of the NFA, and the transitions are computed 
+by computing the epsilon-closure of the set of states that can be reached from a given set of states by following a symbol transition in the input alphabet. 
+The DFA's accept_states are the sets of states of the NFA that contain at least one accept state.
+
+Overall, this code is a Python implementation of the algorithm to convert a non-deterministic finite automaton 
+to a deterministic finite automaton using the powerset construction. The resulting DFA is equivalent to the original NFA.
