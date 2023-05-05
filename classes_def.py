@@ -63,15 +63,21 @@ def move(nfa, states, input):
 # ------------------- function to clean and adjust the DFA formal definition for the fm graph ------------------- #
 
 def clean_frozenset(dfa):
+
+    mystates = set()
+    
     for state in dfa.states:
         if isinstance(state, frozenset):
-            dfa.states.remove(state)
-            dfa.states.add(str(state)[11:-2].replace("'", "").replace(" ", "").replace(",", ""))
+            # dfa.states.remove(state)
+            # dfa.states.add(str(state)[11:-2].replace("'", "").replace(" ", "").replace(",", ""))
+            mystates.add(str(state)[11:-2].replace("'", "").replace(" ", "").replace(",", ""))
+    dfa.states = mystates
     
     for a_state in dfa.accept_states:
         if isinstance(a_state, frozenset):
             dfa.accept_states.remove(a_state)
             dfa.accept_states.add(str(a_state)[11:-2].replace("'", "").replace(" ", "").replace(",", ""))
+
 
     new_keys = []
     new_dict = {}

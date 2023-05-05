@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import messagebox
 from classes_def import *
 from draw import *
@@ -51,7 +52,6 @@ def convert_user_input():
     dfa_trans_text.delete(1.0, tk.END)
     dfa_trans_text.insert(tk.END, str(dfa.transitions))
 
-    # print(dfa.transitions)
     # returning the nfa is not doing anything except that we will need it for graphing
     return nfa
 
@@ -67,58 +67,119 @@ def draw__dfa():
     dfa_to_dot(dfa)
 
 # -------------------- Code for GUI -------------------- #
-
 # Create the main window
 root = tk.Tk()
+root.resizable(0,0)
 root.title("NFA to DFA Converter")
 
+dark_style = ttk.Style()
+
+# Define the colors for the various elements of the theme
+dark_style.theme_create("my_dark_theme", parent="alt", settings={
+    ".": {
+        "configure": {
+            "background": "#333333",
+            "foreground": "#FFFFFF",
+            "selectbackground": "#505050",
+            "selectforeground": "#FFFFFF"
+        }
+    },
+    # Set the color and styling for the buttons
+    # ttk.Style().map("TButton", background=[("active", "#aaa")], foreground=[("active", "#fff")])
+    "TButton": {
+        "map": {
+            "background": [("active", "#aaa")],
+            "foreground": [("active", "#fff")]
+        },
+        "configure": {
+            "padding": 6,
+            "relief": "flat",
+            "background": "#f7970a",
+            "foreground": "#FFFFFF"
+        }
+    },
+    "TEntry": {
+        "configure": {
+            "background": "#FFFFFF",
+            "foreground": "#000000"
+        }
+    },
+    "TLabel": {
+        "configure": {
+            "foreground": "#f7970a"
+        }
+    },
+})
+
+# Set the new theme as the default
+dark_style.theme_use("my_dark_theme")
+
+# Create a main frame to contain all the widgets
+main_frame = ttk.Frame(root, padding=10)
+main_frame.grid()
+
+title = ttk.Label(main_frame, text="Welcome!")
+title.grid(row=0, column=0, columnspan=3)
+
+# Create a frame for the input section
+input_frame = ttk.Frame(main_frame, padding=10, relief=tk.GROOVE, borderwidth=2)
+input_frame.grid(row=1, column=0, padx=10, pady=10)
+
 # Create the input labels and entries
-nfa_states_label = tk.Label(root, text="NFA States:")
-nfa_states_label.grid(row=0, column=0)
-nfa_states_entry = tk.Entry(root)
-nfa_states_entry.grid(row=0, column=1)
+nfa_states_label = ttk.Label(input_frame, text="NFA States:")
+nfa_states_label.grid(row=1, column=0)
+nfa_states_entry = ttk.Entry(input_frame)
+nfa_states_entry.grid(row=2, column=0)
 
-nfa_alphabet_label = tk.Label(root, text="Alphabet:")
-nfa_alphabet_label.grid(row=1, column=0)
-nfa_alphabet_entry = tk.Entry(root)
-nfa_alphabet_entry.grid(row=1, column=1)
+nfa_alphabet_label = ttk.Label(input_frame, text="Alphabet:")
+nfa_alphabet_label.grid(row=3, column=0)
+nfa_alphabet_entry = ttk.Entry(input_frame)
+nfa_alphabet_entry.grid(row=4, column=0)
 
-nfa_transitions_label = tk.Label(root, text="Transitions (state,symbol,next_states):")
-nfa_transitions_label.grid(row=2, column=0)
-nfa_transitions_text = tk.Text(root, height=10)
-nfa_transitions_text.grid(row=2, column=1)
+nfa_start_state_label = ttk.Label(input_frame, text="Start State:")
+nfa_start_state_label.grid(row=5, column=0)
+nfa_start_state_entry = ttk.Entry(input_frame)
+nfa_start_state_entry.grid(row=6, column=0)
 
-nfa_start_state_label = tk.Label(root, text="Start State:")
-nfa_start_state_label.grid(row=3, column=0)
-nfa_start_state_entry = tk.Entry(root)
-nfa_start_state_entry.grid(row=3, column=1)
+nfa_accept_states_label = ttk.Label(input_frame, text="Accept States (comma-separated):")
+nfa_accept_states_label.grid(row=7, column=0)
+nfa_accept_states_entry = ttk.Entry(input_frame)
+nfa_accept_states_entry.grid(row=8, column=0)
 
-nfa_accept_states_label = tk.Label(root, text="Accept States (comma-separated):")
-nfa_accept_states_label.grid(row=4, column=0)
-nfa_accept_states_entry = tk.Entry(root)
-nfa_accept_states_entry.grid(row=4, column=1)
+trans_frame = ttk.Frame(main_frame, padding=10, relief=tk.GROOVE, borderwidth=2)
+trans_frame.grid(row=1, column=1, padx=10, pady=10)
+
+nfa_transitions_label = ttk.Label(trans_frame, text="Transitions (state,symbol,next_states):")
+nfa_transitions_label.grid(row=2, column=0, columnspan=2)
+nfa_transitions_text = tk.Text(trans_frame, height=5, width=50)
+nfa_transitions_text.grid(row=3, column=0, columnspan=2)
 
 # Create the button to trigger the conversion
-convert_button = tk.Button(root, text="Convert", command=convert_user_input)
-convert_button.grid(row=5, column=0)
+convert_button = ttk.Button(trans_frame, text="Convert", command=convert_user_input)
+convert_button.grid(row=10, column=0, pady=10)
 
-  
-convert_button = tk.Button(root, text="Draw NFA", command=draw__nfa)
-convert_button.grid(row=25, column=0)
+# Create the button to draw the NFA
+draw_nfa_button = ttk.Button(trans_frame, text="Draw NFA", command=draw__nfa)
+draw_nfa_button.grid(row=10, column=1, pady=10)
 
-convert_button = tk.Button(root, text="Draw DFA", command=draw__dfa)
-convert_button.grid(row=25, column=1)
+# Create a frame for the output section
+dfa_frame = ttk.Frame(main_frame, padding=10, relief=tk.GROOVE, borderwidth=2)
+dfa_frame.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
 
-# Create the output label and text box for displaying the resulting DFA states
-dfa_states_label = tk.Label(root, text="DFA States:")
-dfa_states_label.grid(row=6, column=0)
-dfa_states_text = tk.Text(root, height=10)
-dfa_states_text.grid(row=6, column=1)
+# Create the output labels and text boxes
+dfa_states_label = ttk.Label(dfa_frame, text="DFA States:")
+dfa_states_label.grid(row=1, column=0)
+dfa_states_text = tk.Text(dfa_frame, height=5, width=50)
+dfa_states_text.grid(row=2, column=0)
 
-# Create the output label and text box for displaying the resulting DFA states
-dfa_trans_label = tk.Label(root, text="DFA Transitions:")
-dfa_trans_label.grid(row=12, column=0)
-dfa_trans_text = tk.Text(root, height=10)
-dfa_trans_text.grid(row=12, column=1)
+# Create the output label and text box for displaying the resulting DFA transitions
+dfa_trans_label = ttk.Label(dfa_frame, text="DFA Transitions:")
+dfa_trans_label.grid(row=4, column=0)
+dfa_trans_text = tk.Text(dfa_frame, height=5, width=50)
+dfa_trans_text.grid(row=5, column=0)
+
+# Create the button to draw the DFA
+draw_dfa_button = ttk.Button(dfa_frame, text="Draw DFA", command=draw__dfa)
+draw_dfa_button.grid(row=4, column=3, padx=10)
 
 root.mainloop()
