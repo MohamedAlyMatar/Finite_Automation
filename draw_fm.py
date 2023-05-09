@@ -2,6 +2,9 @@ from graphviz import *
 import matplotlib.pyplot as plt
 import io
 
+
+# -------------------- Code for drawing NFA -------------------- #
+
 def nfa_to_dot(fm):
     # build a string representing the transitions
     transitions = ''
@@ -23,13 +26,17 @@ def nfa_to_dot(fm):
     }}
     '''
     # print("Dot script:\n", dot_script)
+    
     graph = Source(dot_script)
     png_bytes = graph.pipe(format='png')
 
     img = plt.imread(io.BytesIO(png_bytes))
     plt.imshow(img)
+    plt.axis('off')
     plt.show()
 
+
+# -------------------- Code for drawing DFA -------------------- #
 
 def dfa_to_dot(dfa):
     # build a string representing the transitions
@@ -64,4 +71,5 @@ def dfa_to_dot(dfa):
 
     img = plt.imread(io.BytesIO(png_bytes))
     plt.imshow(img)
+    plt.axis('off')
     plt.show()

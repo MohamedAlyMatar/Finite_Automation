@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from classes_def import *
-from draw import *
+from classes_def_fm import *
+from draw_fm import *
+from dark_style import my_dark_theme
 
 def convert_user_input():
     # Get the input from the GUI
@@ -67,10 +68,13 @@ def draw__dfa():
     dfa_to_dot(dfa)
 
 # -------------------- Code for GUI -------------------- #
-# Create the main window
+
 root = tk.Tk()
 root.resizable(0,0)
 root.title("NFA to DFA Converter")
+
+
+# -------------------- Custom style -------------------- #
 
 dark_style = ttk.Style()
 
@@ -113,6 +117,9 @@ dark_style.theme_create("my_dark_theme", parent="alt", settings={
 
 # Set the new theme as the default
 dark_style.theme_use("my_dark_theme")
+
+# -------------------- Custom style -------------------- #
+
 
 # Create a main frame to contain all the widgets
 main_frame = ttk.Frame(root, padding=10)

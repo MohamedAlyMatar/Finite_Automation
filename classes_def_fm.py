@@ -78,7 +78,6 @@ def clean_frozenset(dfa):
             dfa.accept_states.remove(a_state)
             dfa.accept_states.add(str(a_state)[11:-2].replace("'", "").replace(" ", "").replace(",", ""))
 
-
     new_keys = []
     new_dict = {}
     c = 0
