@@ -125,7 +125,7 @@ dark_style.theme_use("my_dark_theme")
 main_frame = ttk.Frame(root, padding=10)
 main_frame.grid()
 
-title = ttk.Label(main_frame, text="Welcome!")
+title = ttk.Label(main_frame, text="Welcome! Please enter the NFA formal definition", font=('TkDefaultFont', 16))
 title.grid(row=0, column=0, columnspan=3)
 
 # Create a frame for the input section

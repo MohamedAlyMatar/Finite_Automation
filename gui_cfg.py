@@ -19,6 +19,8 @@ def convert_user_cfg():
             for sym in production:
                 if sym.islower() and sym != 'e':
                     terminals.add(sym)
+                elif sym.isnumeric():
+                    terminals.add(sym)
                 elif sym.isupper():
                     nonterminals.add(sym)
             print(production)
@@ -28,7 +30,8 @@ def convert_user_cfg():
 
     cfg = (nonterminals, terminals, rules_dic, start_var)
     result = cfg_to_pda(cfg)
-    print(result)
+
+    output_box.delete(1.0, tk.END)
     output_box.insert(tk.END, str(result))
 
 # -------------------- Code for GUI -------------------- #
@@ -86,7 +89,7 @@ dark_style.theme_use("my_dark_theme")
 # Create a main frame to contain all the widgets
 main_frame = ttk.Frame(root, padding=10)
 main_frame.grid()
-title = ttk.Label(main_frame, text="Welcome!")
+title = ttk.Label(main_frame, text="Welcome!", font=('TkDefaultFont', 16))
 title.grid(row=0, column=0)
 
 # create the input label and box
@@ -94,7 +97,7 @@ input_frame = ttk.Frame(main_frame, padding=10, relief=tk.GROOVE, borderwidth=2)
 input_frame.grid(row=1, column=0, padx=10, pady=10)
 input_label = ttk.Label(input_frame, text="Enter CFG:")
 input_label.grid(row=0, column=0)
-input_box = tk.Text(input_frame, height=10, width=70)
+input_box = tk.Text(input_frame, height=7, width=70)
 input_box.grid(row=1, column=0)
 
 # create the output label and box
@@ -102,7 +105,7 @@ output_frame = ttk.Frame(main_frame, padding=10, relief=tk.GROOVE, borderwidth=2
 output_frame.grid(row=3, column=0, padx=10, pady=10)
 output_label = ttk.Label(output_frame, text="PDA Transition Table:")
 output_label.grid(row=0, column=0)
-output_box = tk.Text(output_frame, height=15, width=70)
+output_box = tk.Text(output_frame, height=17, width=70)
 output_box.grid(row=1, column=0)
 
 # create the generate button

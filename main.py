@@ -19,10 +19,10 @@ title = ttk.Label(main_frame, text="Please choose what you want to do")
 title.grid(row=0, column=0)
 
 # Create buttons to open the two GUI files
-button1 = tk.Button(main_frame, text="Open GUI 1", command=open_gui1)
+button1 = tk.Button(main_frame, text="NFA to DFA", command=open_gui1)
 button1.grid(row=1, column=0)
 
-button2 = tk.Button(main_frame, text="Open GUI 2", command=open_gui2)
+button2 = tk.Button(main_frame, text="CFG to PDA", command=open_gui2)
 button2.grid(row=2, column=0)
 
 root.mainloop()
