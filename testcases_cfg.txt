@@ -1,25 +1,55 @@
 S -> aBc | ab
 B -> SB | e
 
+Rule 1: δ(qO, e, e) = (qS, $)
+Rule 2: δ(qS, e, e) = (qL, S)
+Rule 3: δ(qL, c, c) = (qL, e)
+Rule 4: δ(qL, a, a) = (qL, e)
+Rule 5: δ(qL, b, b) = (qL, e)
+Rule 6: δ(qL, e, S) = (q1, c)
+Rule 7: δ(qL, e, S) = (q3, b)
+Rule 8: δ(q1, e, e) = (q2, B)
+Rule 9: δ(q2, e, e) = (qL, a)
+Rule 10: δ(q3, e, e) = (qL, a)
+Rule 11: δ(qL, e, B) = (q4, B)
+Rule 12: δ(q4, e, e) = (qL, S)
+Rule 13: δ(qL, e, B) = (qL, e)
+Rule 14: δ(qL, e, $) = (qf, e)
+
 ----------------------------------------------------------------
 
 S -> aSb | a | b | e
 
-R1: δ(q, ε, S) = {(q, aSb)}
-R2: δ(q, ε, S) = {(q, a) | (q, b) | (q, ε)}
-R3: δ(q, a, a) = {(q, ε)}
-R4: δ(q, b, b) = {(q, ε)}
-R5: δ(q, ε, z0) = {(q, ε)}
+Rule 1: δ(qO, e, e) = (qS, $)
+Rule 2: δ(qS, e, e) = (qL, S)
+Rule 3: δ(qL, b, b) = (qL, e)
+Rule 4: δ(qL, a, a) = (qL, e)
+Rule 5: δ(qL, e, S) = (q1, b)
+Rule 6: δ(q1, e, e) = (q2, S)
+Rule 7: δ(q2, e, e) = (qL, a)
+Rule 8: δ(qL, e, S) = (qL, a)
+Rule 9: δ(qL, e, S) = (qL, b)
+Rule 10: δ(qL, e, S) = (qL, e)
+Rule 11: δ(qL, e, $) = (qf, e)
 
 ----------------------------------------------------------------
 
 S -> 0BB  
 B -> 0S | 1S | 0 
 
-R1: δ(q, ε, S) = {(q, 0BB)}
-R2: δ(q, ε, B) = {(q, 0S) | (q, 1S) | (q, 0)}
-R3: δ(q, 0, 0) = {(q, ε)}
-R4: δ(q, 1, 1) = {(q, ε)}
+Rule 1: δ(qO, e, e) = (qS, $)
+Rule 2: δ(qS, e, e) = (qL, S)
+Rule 3: δ(qL, 0, 0) = (qL, e)
+Rule 4: δ(qL, 1, 1) = (qL, e)
+Rule 5: δ(qL, e, S) = (q1, B)
+Rule 6: δ(q1, e, e) = (q2, B)
+Rule 7: δ(q2, e, e) = (qL, 0)
+Rule 8: δ(qL, e, B) = (q3, S)
+Rule 9: δ(qL, e, B) = (q4, S)
+Rule 10: δ(q3, e, e) = (qL, 0)
+Rule 11: δ(q4, e, e) = (qL, 1)
+Rule 12: δ(qL, e, B) = (qL, 0)
+Rule 13: δ(qL, e, $) = (qf, e)
 
 ----------------------------------------------------------------
 
@@ -27,9 +57,18 @@ S -> 0SX | 1SY |  e
 X -> 1  
 Y -> 0  
 
-R1: δ(q, ε, S) = {(q, 0SX) | (q, 1SY) | (q, ε)}
-R2: δ(q, ε, X) = {(q, 1)}
-R3: δ(q, ε, Y) = {(q, 0)}
-R4: δ(q, 0, 0) = {(q, ε)}
-R5: δ(q, 1, 1) = {(q, ε)}
+Rule 1: δ(qO, e, e) = (qS, $)
+Rule 2: δ(qS, e, e) = (qL, S)
+Rule 3: δ(qL, 0, 0) = (qL, e)
+Rule 4: δ(qL, 1, 1) = (qL, e)
+Rule 5: δ(qL, e, S) = (q1, X)
+Rule 6: δ(qL, e, S) = (q3, Y)
+Rule 7: δ(q1, e, e) = (q2, S)
+Rule 8: δ(q2, e, e) = (qL, 0)
+Rule 9: δ(q3, e, e) = (q4, S)
+Rule 10: δ(q4, e, e) = (qL, 1)
+Rule 11: δ(qL, e, S) = (qL, e)
+Rule 12: δ(qL, e, X) = (qL, 1)
+Rule 13: δ(qL, e, Y) = (qL, 0)
+Rule 14: δ(qL, e, $) = (qf, e)
 

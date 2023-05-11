@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import *
 from classes_def_fm import *
 from draw_fm import *
-from dark_style import my_dark_theme
+from dark_style import *
 
 def convert_user_input():
     # Get the input from the GUI
@@ -69,56 +70,8 @@ def draw__dfa():
 
 # -------------------- Code for GUI -------------------- #
 
-root = tk.Tk()
-root.resizable(0,0)
-root.title("NFA to DFA Converter")
-
-
-# -------------------- Custom style -------------------- #
-
-dark_style = ttk.Style()
-
-# Define the colors for the various elements of the theme
-dark_style.theme_create("my_dark_theme", parent="alt", settings={
-    ".": {
-        "configure": {
-            "background": "#333333",
-            "foreground": "#FFFFFF",
-            "selectbackground": "#505050",
-            "selectforeground": "#FFFFFF"
-        }
-    },
-    # Set the color and styling for the buttons
-    # ttk.Style().map("TButton", background=[("active", "#aaa")], foreground=[("active", "#fff")])
-    "TButton": {
-        "map": {
-            "background": [("active", "#aaa")],
-            "foreground": [("active", "#fff")]
-        },
-        "configure": {
-            "padding": 6,
-            "relief": "flat",
-            "background": "#f7970a",
-            "foreground": "#FFFFFF"
-        }
-    },
-    "TEntry": {
-        "configure": {
-            "background": "#FFFFFF",
-            "foreground": "#000000"
-        }
-    },
-    "TLabel": {
-        "configure": {
-            "foreground": "#f7970a"
-        }
-    },
-})
-
-# Set the new theme as the default
-dark_style.theme_use("my_dark_theme")
-
-# -------------------- Custom style -------------------- #
+root = my_custom_theme()
+root.title("NFA to DFA")
 
 
 # Create a main frame to contain all the widgets
@@ -148,7 +101,7 @@ nfa_start_state_label.grid(row=5, column=0)
 nfa_start_state_entry = ttk.Entry(input_frame)
 nfa_start_state_entry.grid(row=6, column=0)
 
-nfa_accept_states_label = ttk.Label(input_frame, text="Accept States (comma-separated):")
+nfa_accept_states_label = ttk.Label(input_frame, text="Accept States:")
 nfa_accept_states_label.grid(row=7, column=0)
 nfa_accept_states_entry = ttk.Entry(input_frame)
 nfa_accept_states_entry.grid(row=8, column=0)
@@ -156,7 +109,7 @@ nfa_accept_states_entry.grid(row=8, column=0)
 trans_frame = ttk.Frame(main_frame, padding=10, relief=tk.GROOVE, borderwidth=2)
 trans_frame.grid(row=1, column=1, padx=10, pady=10)
 
-nfa_transitions_label = ttk.Label(trans_frame, text="Transitions (state,symbol,next_states):")
+nfa_transitions_label = ttk.Label(trans_frame, text="Transitions (state,symbol,next_states):\nuse 'e' for epsilon")
 nfa_transitions_label.grid(row=2, column=0, columnspan=2)
 nfa_transitions_text = tk.Text(trans_frame, height=5, width=50)
 nfa_transitions_text.grid(row=3, column=0, columnspan=2)

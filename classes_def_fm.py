@@ -43,20 +43,20 @@ def epsilon_closure(nfa, given_states):
     return frozenset(closure)
 
 
-def move(nfa, states, input):
+def check(nfa, states, input):
     # initialize an empty set to store the set of transition states
-    move_states = set()
+    checked_states = set()
 
     # for each state
     for state in states:
         # check if the state is found in the NFA transition 
-        # and it's input transition is found with the state
+        # and its input transition is found with the state
         if state in nfa.transitions and input in nfa.transitions[state]:
-            # then add them to the move states
-            move_states.update(nfa.transitions[state][input])
+            # then add them to the checked states
+            checked_states.update(nfa.transitions[state][input])
     
     # then return the epsilon clousure to make to get all the set states 
-    return epsilon_closure(nfa, move_states)
+    return epsilon_closure(nfa, checked_states)
 
 
 
@@ -107,7 +107,7 @@ def nfa_to_dfa(nfa):
         current_state = rem_states.pop()
         
         for input in nfa.alphabet:
-            next_state = move(nfa, current_state, input)
+            next_state = check(nfa, current_state, input)
 
             # check if next_state is NOT empty
             if len(next_state) > 0:

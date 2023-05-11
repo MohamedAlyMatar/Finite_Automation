@@ -16,7 +16,7 @@ class PDA:
         self.transitions = transitions
 
     def __str__(self):
-        output = "Transition Table Rules:\nstart state, symbol read, symbol popped --> new state, symbols pushed\n"
+        output = "Transition Table Rules:\nδ(current state, char read, char pop) = (new state, char push)\ne stands for epsilon\n\n"
         i = 0
         for key, values in self.transitions.items():
             for value in values:
@@ -31,55 +31,19 @@ def cfg_to_pda(cfg):
     non_terminals, terminals, productions, start_var = cfg
 
     # Define the PDA
-    state = 'q'
-    start_state = start_var
-    start_stack_symbol = 'z0'
-    accept_states = {'qf'}
+    start_stack_symbol = '$'
+    init_state = 'qO'
+    start_state = 'qS'
+    loop_state = 'qL'
+    accept_state = 'qf'
     transitions = {}
     # state_count = 0
 
     # --------------------------------------------------------------------------- #
 
-    # Add transitions for each rule
-    for variable, rules in productions.items():
-        for rule in rules:
-            # state = 'q' + str(state_count)
-            # state_count += 1
-            transition_key = (state, 'e', variable)
-            transition_value = (state, rule)
-            
-            # search for transition key in transitions 
-            # if not found create it with an empty value
-            # if found append the transition
-            transitions.setdefault(transition_key, []).append(transition_value)
-
-            # Add an epsilon transition back to the start state
-            # transition_key = (state, 'e', 'e')
-            # transition_value = (start_state, 'e')
-            # transitions.setdefault(transition_key, []).append(transition_value)
-
-    # --------------------------------------------------------------------------- #
-
-    # Add transitions for each terminal symbol
-    for terminal in terminals:
-        # state = 'q' + str(state_count)
-        # state_count += 1
-        transition_key = (state, terminal, terminal)
-        transition_value = (state, 'e')
-
-        # search for transition key in transitions 
-        # if not found create it with an empty value
-        # if found append the transition
-        transitions.setdefault(transition_key, []).append(transition_value)
-
-    # --------------------------------------------------------------------------- #
-
-    # Add a special transition for the start symbol of the PDA
-    # to allow the PDA to start with an empty stack
-
-    transition_key = (state, 'e', start_stack_symbol)
-    transition_value = (state, 'e')
-    # transition_value = (state, start_var + start_stack_symbol)
+    # Add the initial state
+    transition_key = (init_state, 'e', 'e')
+    transition_value = (start_state, start_stack_symbol)
 
     # search for transition key in transitions 
     # if not found create it with an empty value
@@ -88,19 +52,66 @@ def cfg_to_pda(cfg):
 
     # --------------------------------------------------------------------------- #
 
-    # Add a final state qf to accept the input string
-    # final_state = 'qf'
-    # transition_key = (start_state, 'e', 'e')
-    # transition_value = (final_state, 'e')
+    # Add the start state
+    transition_key = (start_state, 'e', 'e')
+    transition_value = (loop_state, start_var)
 
     # search for transition key in transitions 
     # if not found create it with an empty value
     # if found append the transition
-    # transitions.setdefault(transition_key, []).append(transition_value)
+    transitions.setdefault(transition_key, []).append(transition_value)
 
     # --------------------------------------------------------------------------- #
 
-    pda = PDA(start_state, start_stack_symbol, accept_states, transitions)
+    # Add terminal transitions on the loop state
+    for terminal in terminals:
+        # state = 'q' + str(state_count)
+        # state_count += 1
+        transition_key = (loop_state, terminal, terminal)
+        transition_value = (loop_state, 'e')
+
+        # search for transition key in transitions 
+        # if not found create it with an empty value
+        # if found append the transition
+        transitions.setdefault(transition_key, []).append(transition_value)
+
+    # --------------------------------------------------------------------------- #
+
+    states_counter = 0
+    for variable, rules in productions.items():
+        for rule in rules:
+            current_state = loop_state
+            loop_var = variable
+            ch = -1
+            for i in range(1, len(rule)):
+                states_counter += 1
+                next_state = "q" + str(states_counter)
+            
+                transition_key = (current_state, 'e', loop_var)
+                transition_value = (next_state, rule[ch])
+                transitions.setdefault(transition_key, []).append(transition_value)
+                current_state = next_state
+                loop_var = 'e'
+                ch = ch -1
+
+            transition_key = (current_state, 'e', 'e')
+            transition_value = (loop_state, rule[ch])
+            transitions.setdefault(transition_key, []).append(transition_value)
+
+    # --------------------------------------------------------------------------- #
+
+    # Add a final state qf to accept the input string
+    transition_key = (loop_state, 'e', start_stack_symbol)
+    transition_value = (accept_state, 'e')
+
+    # search for transition key in transitions 
+    # if not found create it with an empty value
+    # if found append the transition
+    transitions.setdefault(transition_key, []).append(transition_value)
+
+    # --------------------------------------------------------------------------- #
+
+    pda = PDA(start_state, start_stack_symbol, accept_state, transitions)
     return pda
 
 
