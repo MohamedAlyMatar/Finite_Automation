@@ -37,7 +37,6 @@ def cfg_to_pda(cfg):
     loop_state = 'qL'
     accept_state = 'qf'
     transitions = {}
-    # state_count = 0
 
     # --------------------------------------------------------------------------- #
 
@@ -65,8 +64,6 @@ def cfg_to_pda(cfg):
 
     # Add terminal transitions on the loop state
     for terminal in terminals:
-        # state = 'q' + str(state_count)
-        # state_count += 1
         transition_key = (loop_state, terminal, terminal)
         transition_value = (loop_state, 'e')
 
@@ -83,7 +80,7 @@ def cfg_to_pda(cfg):
             current_state = loop_state
             loop_var = variable
             ch = -1
-            for i in range(1, len(rule)):
+            for _ in range(1, len(rule)):
                 states_counter += 1
                 next_state = "q" + str(states_counter)
             
